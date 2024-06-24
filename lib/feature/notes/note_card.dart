@@ -1,11 +1,8 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:notah/constants/app_lang.dart';
 import 'package:notah/constants/app_themes.dart';
-
 import 'package:notah/feature/notes/custom_task_grid_bottom_sheet.dart';
 import 'package:notah/feature/notes/models/note_task_model.dart';
 import 'package:notah/models/popup_menu_item_data.dart';
