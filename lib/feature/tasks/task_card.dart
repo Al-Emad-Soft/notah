@@ -14,7 +14,6 @@ import 'package:share_plus/share_plus.dart';
 
 import 'models/todo_task_model.dart';
 
-// ignore: must_be_immutable
 class CustomTaskListTile extends StatelessWidget {
   final TodoTaskModel taskModel;
   CustomTaskListTile({super.key, required this.taskModel});
@@ -48,7 +47,6 @@ class CustomTaskListTile extends StatelessWidget {
             duration: Duration(milliseconds: 150),
             curve: Curves.easeOut,
             onEnd: () {},
-            //height: taskModel.isFolded ? 80 : getHeight(subtasks.length),
             child: Column(
               children: [
                 Padding(
@@ -99,7 +97,9 @@ class CustomTaskListTile extends StatelessWidget {
                                             .changeDoneAndSave(taskModel);
                                         break;
                                       case 1:
-                                        await Share.share("test share task");
+                                        String text = tasksVM
+                                            .getTaskDataToShare(taskModel);
+                                        await Share.share(text);
                                         break;
                                       case 2:
                                         await tasksVM

@@ -67,6 +67,15 @@ class TodosViewModel extends ChangeNotifier {
     return box.values.where((x) => x.parentId == parentTask.id).toList();
   }
 
+  String getTaskDataToShare(TodoTaskModel task) {
+    String text = "${task.content} ${task.isDone ? "(✓)" : ""}\n";
+    final found = box.values.where((x) => x.parentId == task.id).toList();
+    for (var sub in found) {
+      text += " - ${sub.content} ${sub.isDone ? "(✓)" : ""}\n";
+    }
+    return text;
+  }
+
   TodoTaskModel setCurTask(TodoTaskModel task) {
     resetCurrTask();
     _curTask = task;

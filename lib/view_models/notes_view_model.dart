@@ -156,6 +156,10 @@ class NotesTasksViewModel extends ChangeNotifier {
     }
   }
 
+  String getNoteDataToShare(NoteTaskModel task) {
+    return "${task.title}\n\t${task.content}";
+  }
+
   void changeCurrTaskDate(DateTime date) {
     if (_curNoteTask == null) return;
     final x = _curNoteTask!.noteDate;

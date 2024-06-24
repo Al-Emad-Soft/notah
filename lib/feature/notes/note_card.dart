@@ -116,7 +116,9 @@ class TaskGridTile extends StatelessWidget {
                                 await tasksVM.changeFavorite(task: taskModel);
                                 break;
                               case 1:
-                                await Share.share("test share");
+                                final text =
+                                    tasksVM.getNoteDataToShare(taskModel);
+                                await Share.share(text);
                                 break;
                               case 2:
                                 await tasksVM.deleteNoteTaskById(
