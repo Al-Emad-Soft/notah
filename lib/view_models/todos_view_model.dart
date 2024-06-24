@@ -5,6 +5,7 @@ import 'package:notah/feature/tasks/models/todo_task_model.dart';
 
 class TodosViewModel extends ChangeNotifier {
   final Box<TodoTaskModel> box = Hive.box(kTodosTasksBox);
+  final ExpansionTileController controller = ExpansionTileController();
 
   TodoTaskModel? _curTask = null;
   List<TodoTaskModel> _curSubtasks = [];
@@ -22,11 +23,22 @@ class TodosViewModel extends ChangeNotifier {
   TodoTaskModel get curTask => _curTask!;
 
   bool get doneTaskFolded => _isDoneTaskFolded;
+  Future<void> updateExpanstion(TodoTaskModel task) async {
+    final found = box.values.singleWhere((x) => x.id == task.id);
+
+    found.isFolded = controller.isExpanded;
+    await found.save();
+    notifyListeners();
+  }
 
   Future<void> changeFoldAndSave(TodoTaskModel task) async {
     final found = box.values.singleWhere((x) => x.id == task.id);
 
     found.isFolded = !found.isFolded;
+    if (controller.isExpanded)
+      controller.collapse();
+    else
+      controller.expand();
     await found.save();
     notifyListeners();
   }

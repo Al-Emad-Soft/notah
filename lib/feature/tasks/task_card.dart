@@ -48,7 +48,7 @@ class CustomTaskListTile extends StatelessWidget {
             duration: Duration(milliseconds: 150),
             curve: Curves.easeOut,
             onEnd: () {},
-            height: taskModel.isFolded ? 80 : getHeight(subtasks.length),
+            //height: taskModel.isFolded ? 80 : getHeight(subtasks.length),
             child: Column(
               children: [
                 Padding(
@@ -132,7 +132,6 @@ class CustomTaskListTile extends StatelessWidget {
                       TextsContentInfo(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         info: [
-                          "${subtasks.length}/${subtasks.where((x) => x.isDone).length}",
                           "${DateFormat("dd/MM/yyyy").format(taskModel.noteDate)}",
                           "${DateFormat().add_jm().format(taskModel.noteDate)}",
                         ],
@@ -140,20 +139,32 @@ class CustomTaskListTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                Visibility(
-                  visible: !taskModel.isFolded,
-                  child: Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: ListView.builder(
-                        itemBuilder: (context, index) => SubtaskListTile(
-                          subtaskModel: subtasks[index],
-                          maxLines: 1,
-                          onCheckChanged: (value) {},
-                        ),
-                        itemCount: subtasks.length > 2 ? 2 : subtasks.length,
-                        shrinkWrap: true,
-                      ),
+                ExpansionTile(
+                  controller: tasksVM.controller,
+                  initiallyExpanded: false,
+                  trailing: Text(
+                    "${subtasks.length}/${subtasks.where((x) => x.isDone).length}",
+                    maxLines: 1,
+                    style: TextStyle(
+                      color: currTheme(context).textTheme.bodySmall!.color,
+                    ),
+                  ),
+                  title: Text(
+                    'Subtasks'.tr(),
+                    maxLines: 1,
+                    style: TextStyle(
+                      color: currTheme(context).textTheme.bodySmall!.color,
+                    ),
+                  ),
+                  onExpansionChanged: (value) async {
+                    await tasksVM.updateExpanstion(taskModel);
+                  },
+                  children: List.generate(
+                    subtasks.length > 2 ? 2 : subtasks.length,
+                    (index) => SubtaskListTile(
+                      subtaskModel: subtasks[index],
+                      maxLines: 1,
+                      onCheckChanged: (value) {},
                     ),
                   ),
                 ),

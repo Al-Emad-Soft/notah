@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
       drawer: SettingsDrawer(),
       backgroundColor: currTheme(context).colorScheme.background,
       appBar: AppBar(
-        leading: new Container(),
+        leading: new SizedBox(),
         toolbarHeight: 120,
         elevation: 0,
         backgroundColor: currTheme(context).colorScheme.background,

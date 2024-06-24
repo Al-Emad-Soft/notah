@@ -10,38 +10,40 @@ class TopAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        SizedBox(
-          height: 50,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Stack(
-              children: [
-                Positioned(
-                  child: CustomIconButton(
-                    icon: Icon(Icons.settings),
-                    onPress: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "نـــوتـــــــة",
-                      style: currTheme(context).appBarTheme.titleTextStyle,
+    return SafeArea(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(
+            height: 50,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Stack(
+                children: [
+                  Positioned(
+                    child: CustomIconButton(
+                      icon: Icon(Icons.settings),
+                      onPress: () {
+                        Scaffold.of(context).openDrawer();
+                      },
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "نـــوتـــــــة",
+                        style: currTheme(context).appBarTheme.titleTextStyle,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        TopNavigationBar(),
-      ],
+          TopNavigationBar(),
+        ],
+      ),
     );
   }
 }

@@ -38,7 +38,7 @@ Map<String, Map<String, String>> get keys => {
         'Delete': 'حذف',
         'Mark as done': 'مكتملة',
         'Unmark as done': 'غير مكتملة',
-        'Subtasks': 'مهام فرعية',
+        'Subtasks': 'المهام فرعية',
         'Letters': 'احرف',
         'Settings': 'الإعدادات',
         'dark': 'داكن',
