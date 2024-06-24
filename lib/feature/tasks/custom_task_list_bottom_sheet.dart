@@ -83,7 +83,10 @@ Future<dynamic> showTaskListBottomSheet(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Icon(
                                   Icons.add,
-                                  color: Colors.black54,
+                                  color: Theme.of(context)
+                                      .iconTheme
+                                      .color!
+                                      .withOpacity(0.5),
                                 ),
                               ),
                             ],
