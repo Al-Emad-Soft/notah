@@ -180,7 +180,7 @@ class BottomSelectionPanel extends StatelessWidget {
                         actions: [
                           CustomIconButton(
                             radius: 60,
-                            onPress: () async {
+                            onPressed: () async {
                               await tasksVM.deleteSelectedTasks();
                               Navigator.pop(context);
                             },
@@ -191,7 +191,7 @@ class BottomSelectionPanel extends StatelessWidget {
                           ),
                           CustomIconButton(
                             radius: 60,
-                            onPress: () {
+                            onPressed: () {
                               Navigator.pop(context);
                             },
                             icon: Icon(

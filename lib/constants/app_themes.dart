@@ -13,8 +13,16 @@ final ThemeData darkTheme = ThemeData.dark(useMaterial3: true).copyWith(
       fontFamily: 'Changa-Regular',
     ),
   ),
+  textSelectionTheme: TextSelectionThemeData(
+    selectionColor: Colors.amber.withOpacity(0.5),
+    cursorColor: Colors.amber,
+    selectionHandleColor: Colors.amber,
+  ),
   drawerTheme: DrawerThemeData(
     backgroundColor: Colors.red,
+  ),
+  expansionTileTheme: ExpansionTileThemeData(
+    iconColor: Colors.amber,
   ),
   navigationBarTheme: NavigationBarThemeData(
     indicatorColor: Colors.amber,
@@ -84,7 +92,7 @@ final ThemeData lightTheme = ThemeData.light(useMaterial3: true).copyWith(
     primary: Colors.grey, // <-- SEE HERE
   ),
   navigationBarTheme: NavigationBarThemeData(
-    indicatorColor: Colors.amber,
+    indicatorColor: Colors.grey.shade400,
   ),
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
@@ -97,9 +105,6 @@ final ThemeData lightTheme = ThemeData.light(useMaterial3: true).copyWith(
       color: Colors.red,
     ),
     backgroundColor: Color.fromRGBO(244, 244, 244, 1),
-  ),
-  textSelectionTheme: TextSelectionThemeData(
-    selectionColor: Colors.amber.withOpacity(0.5),
   ),
   splashColor: Colors.amber.withOpacity(0.5),
   appBarTheme: AppBarTheme(

@@ -13,7 +13,7 @@ class CustomSelectionPanelButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomIconButton(
-      onPress: onPressed,
+      onPressed: onPressed,
       radius: 50,
       icon: icon,
     );

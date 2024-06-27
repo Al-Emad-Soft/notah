@@ -5,7 +5,9 @@ import 'package:notah/feature/tasks/models/todo_task_model.dart';
 
 class TodosViewModel extends ChangeNotifier {
   final Box<TodoTaskModel> box = Hive.box(kTodosTasksBox);
-  final ExpansionTileController controller = ExpansionTileController();
+  final ExpansionTileController doneTaskscontroller = ExpansionTileController();
+  final Map<int, ExpansionTileController> tasksExpController =
+      Map<int, ExpansionTileController>();
 
   TodoTaskModel? _curTask = null;
   List<TodoTaskModel> _curSubtasks = [];
@@ -14,8 +16,11 @@ class TodosViewModel extends ChangeNotifier {
 
   List<TodoTaskModel> get doneTasks =>
       mainTasks.where((x) => x.isDone).toList(growable: true);
-  List<TodoTaskModel> get notDoneTasks =>
-      mainTasks.where((x) => !x.isDone).toList(growable: true);
+  List<TodoTaskModel> get notDoneTasks {
+    final all = mainTasks.where((x) => !x.isDone).toList(growable: true);
+    return all;
+  }
+
   List<TodoTaskModel> get deletedTasks => _deletedTasks;
   List<TodoTaskModel> get curSubtasks => _curSubtasks;
   List<TodoTaskModel> get mainTasks =>
@@ -26,19 +31,30 @@ class TodosViewModel extends ChangeNotifier {
   Future<void> updateExpanstion(TodoTaskModel task) async {
     final found = box.values.singleWhere((x) => x.id == task.id);
 
-    found.isFolded = controller.isExpanded;
+    //found.isFolded = getTaskExpController(task).isExpanded;
     await found.save();
     notifyListeners();
   }
 
-  Future<void> changeFoldAndSave(TodoTaskModel task) async {
+  // ExpansionTileController getTaskExpController(TodoTaskModel task) {
+  //   if (!tasksExpController.containsKey(task.id)) {
+  //     tasksExpController[task.id] = ExpansionTileController();
+  //   }
+
+  //   return tasksExpController[task.id]!;
+  // }
+
+  Future<void> changeFoldAndSave(
+      TodoTaskModel task, Function(bool) onFold) async {
     final found = box.values.singleWhere((x) => x.id == task.id);
 
     found.isFolded = !found.isFolded;
-    if (controller.isExpanded)
-      controller.collapse();
-    else
-      controller.expand();
+    onFold(found.isFolded);
+    // if (tasksController[found.id]!.isExpanded)
+    //   tasksController[found.id]!.collapse();
+    // else
+    //   tasksController[found.id]!.expand();
+
     await found.save();
     notifyListeners();
   }
