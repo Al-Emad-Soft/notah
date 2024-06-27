@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomIconButton extends StatelessWidget {
-  final Function() onPress;
+  final Function() onPressed;
   final double radius;
   final Icon icon;
   final Color? backgroudColor;
@@ -11,7 +11,7 @@ class CustomIconButton extends StatelessWidget {
     this.radius = 40,
     this.elevation,
     this.backgroudColor,
-    required this.onPress,
+    required this.onPressed,
     required this.icon,
   });
 
@@ -20,7 +20,7 @@ class CustomIconButton extends StatelessWidget {
     return MaterialButton(
       elevation: elevation,
       color: backgroudColor,
-      onPressed: onPress,
+      onPressed: onPressed,
       child: icon,
       minWidth: radius,
       height: radius,

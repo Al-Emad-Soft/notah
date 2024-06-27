@@ -23,7 +23,7 @@ class TopAppBar extends StatelessWidget {
                   Positioned(
                     child: CustomIconButton(
                       icon: Icon(Icons.settings),
-                      onPress: () {
+                      onPressed: () {
                         Scaffold.of(context).openDrawer();
                       },
                     ),

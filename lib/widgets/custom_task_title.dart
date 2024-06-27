@@ -72,7 +72,7 @@ class _CustomTaskTitleState extends State<CustomTaskTitle> {
                 Icons.check,
                 color: currTheme(context).iconTheme.color,
               ),
-              onPress: () {
+              onPressed: () {
                 widget.onSave(newTitle);
 
                 setState(() {

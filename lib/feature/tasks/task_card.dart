@@ -7,11 +7,9 @@ import 'package:notah/feature/tasks/custom_task_list_bottom_sheet.dart';
 import 'package:notah/feature/tasks/subtask_list_tile.dart';
 import 'package:notah/models/popup_menu_item_data.dart';
 import 'package:notah/view_models/todos_view_model.dart';
-import 'package:notah/widgets/custom_icon_button.dart';
 import 'package:notah/widgets/custom_popup_menu.dart';
 import 'package:notah/widgets/text_content_info.dart';
 import 'package:share_plus/share_plus.dart';
-
 import 'models/todo_task_model.dart';
 
 class CustomTaskListTile extends StatelessWidget {
@@ -24,6 +22,7 @@ class CustomTaskListTile extends StatelessWidget {
       final subtasks = tasksVM.getSubtasks(taskModel);
       taskModel.copyFrom(tasksVM.getTaskById(taskModel.id));
       return Card(
+        borderOnForeground: false,
         clipBehavior: Clip.antiAlias,
         color: currTheme(context).primaryColor,
         shape: RoundedRectangleBorder(
@@ -43,133 +42,138 @@ class CustomTaskListTile extends StatelessWidget {
               onSave: () {},
             );
           },
-          child: AnimatedContainer(
-            duration: Duration(milliseconds: 150),
-            curve: Curves.easeOut,
-            onEnd: () {},
-            child: Column(
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomPopupMenuButton(
-                                  items: [
-                                    PopupMenuItemData(
-                                      icon: Icon(
-                                        taskModel.isDone
-                                            ? Icons.check_box
-                                            : Icons.check_box_rounded,
-                                        color: taskModel.isDone
-                                            ? Colors.green[900]
-                                            : Colors.black54,
-                                      ),
-                                      title: taskModel.isDone
-                                          ? "Unmark as done".tr()
-                                          : "Mark as done".tr(),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomPopupMenuButton(
+                                items: [
+                                  PopupMenuItemData(
+                                    icon: Icon(
+                                      taskModel.isDone
+                                          ? Icons.check_box
+                                          : Icons.check_box_rounded,
+                                      color: taskModel.isDone
+                                          ? Colors.green[900]
+                                          : Colors.black54,
                                     ),
-                                    PopupMenuItemData(
-                                      icon: Icon(
-                                        Icons.share,
-                                        color: Colors.black54,
-                                      ),
-                                      title: "Share".tr(),
+                                    title: taskModel.isDone
+                                        ? "Unmark as done".tr()
+                                        : "Mark as done".tr(),
+                                  ),
+                                  PopupMenuItemData(
+                                    icon: Icon(
+                                      Icons.share,
+                                      color: Colors.black54,
                                     ),
-                                    PopupMenuItemData(
-                                      icon: Icon(
-                                        Icons.delete,
-                                        color: Colors.black54,
-                                      ),
-                                      title: "Delete".tr(),
-                                    )
-                                  ],
-                                  onPress: (index) async {
-                                    switch (index) {
-                                      case 0:
-                                        await tasksVM
-                                            .changeDoneAndSave(taskModel);
-                                        break;
-                                      case 1:
-                                        String text = tasksVM
-                                            .getTaskDataToShare(taskModel);
-                                        await Share.share(text);
-                                        break;
-                                      case 2:
-                                        await tasksVM
-                                            .deleteTaskAndSave(taskModel);
-                                        break;
-                                    }
-                                  }),
-                              Text(
-                                taskModel.content,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: currTheme(context).textTheme.titleMedium,
-                              ),
-                            ],
-                          ),
-                          CustomIconButton(
-                            onPress: () async {
-                              await tasksVM.changeFoldAndSave(taskModel);
-                            },
-                            icon: Icon(
-                              taskModel.isFolded
-                                  ? Icons.arrow_drop_down
-                                  : Icons.arrow_drop_up,
-                              color: currTheme(context).iconTheme.color,
-                              size: 30,
+                                    title: "Share".tr(),
+                                  ),
+                                  PopupMenuItemData(
+                                    icon: Icon(
+                                      Icons.delete,
+                                      color: Colors.black54,
+                                    ),
+                                    title: "Delete".tr(),
+                                  )
+                                ],
+                                onPress: (index) async {
+                                  switch (index) {
+                                    case 0:
+                                      await tasksVM
+                                          .changeDoneAndSave(taskModel);
+                                      break;
+                                    case 1:
+                                      String text =
+                                          tasksVM.getTaskDataToShare(taskModel);
+                                      await Share.share(text);
+                                      break;
+                                    case 2:
+                                      await tasksVM
+                                          .deleteTaskAndSave(taskModel);
+                                      break;
+                                  }
+                                }),
+                            Text(
+                              taskModel.content,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: currTheme(context).textTheme.titleMedium,
                             ),
-                          ),
-                        ],
-                      ),
-                      TextsContentInfo(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        info: [
-                          "${DateFormat("dd/MM/yyyy").format(taskModel.noteDate)}",
-                          "${DateFormat().add_jm().format(taskModel.noteDate)}",
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                        // CustomIconButton(
+                        //   onPressed: () {
+                        //     tasksVM.changeFoldAndSave(
+                        //       taskModel,
+                        //       (value) {
+                        //         if (!value)
+                        //           tasksVM
+                        //               .getTaskExpController(taskModel)
+                        //               .collapse();
+                        //         else
+                        //           tasksVM
+                        //               .getTaskExpController(taskModel)
+                        //               .expand();
+                        //       },
+                        //     );
+                        //   },
+                        //   icon: Icon(
+                        //     taskModel.isFolded
+                        //         ? Icons.arrow_drop_down
+                        //         : Icons.arrow_drop_up,
+                        //     color: currTheme(context).iconTheme.color,
+                        //     size: 30,
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                    TextsContentInfo(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      info: [
+                        "${DateFormat("dd/MM/yyyy").format(taskModel.noteDate)}",
+                        "${DateFormat().add_jm().format(taskModel.noteDate)}",
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              ExpansionTile(
+                initiallyExpanded: false,
+                trailing: Text(
+                  "${subtasks.length}/${subtasks.where((x) => x.isDone).length}",
+                  maxLines: 1,
+                  style: TextStyle(
+                    color: currTheme(context).textTheme.bodySmall!.color,
                   ),
                 ),
-                ExpansionTile(
-                  controller: tasksVM.controller,
-                  initiallyExpanded: false,
-                  trailing: Text(
-                    "${subtasks.length}/${subtasks.where((x) => x.isDone).length}",
-                    maxLines: 1,
-                    style: TextStyle(
-                      color: currTheme(context).textTheme.bodySmall!.color,
-                    ),
-                  ),
-                  title: Text(
-                    'Subtasks'.tr(),
-                    maxLines: 1,
-                    style: TextStyle(
-                      color: currTheme(context).textTheme.bodySmall!.color,
-                    ),
-                  ),
-                  onExpansionChanged: (value) async {
-                    await tasksVM.updateExpanstion(taskModel);
-                  },
-                  children: List.generate(
-                    subtasks.length > 2 ? 2 : subtasks.length,
-                    (index) => SubtaskListTile(
-                      subtaskModel: subtasks[index],
-                      maxLines: 1,
-                      onCheckChanged: (value) {},
-                    ),
+                title: Text(
+                  'Subtasks'.tr(),
+                  maxLines: 1,
+                  style: TextStyle(
+                    color: currTheme(context).textTheme.bodySmall!.color,
                   ),
                 ),
-              ],
-            ),
+                onExpansionChanged: (value) {
+                  tasksVM.updateExpanstion(taskModel);
+                },
+                children: List.generate(
+                  subtasks.length > 2 ? 2 : subtasks.length,
+                  (index) => SubtaskListTile(
+                    subtaskModel: subtasks[index],
+                    maxLines: 1,
+                    onCheckChanged: (value) {},
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       );

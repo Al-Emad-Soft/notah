@@ -16,6 +16,9 @@ final ThemeData darkTheme = ThemeData.dark(useMaterial3: true).copyWith(
   drawerTheme: DrawerThemeData(
     backgroundColor: Colors.red,
   ),
+  expansionTileTheme: ExpansionTileThemeData(
+    iconColor: Colors.amber,
+  ),
   navigationBarTheme: NavigationBarThemeData(
     indicatorColor: Colors.amber,
   ),

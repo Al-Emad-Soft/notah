@@ -135,7 +135,7 @@ class NoteTasksHeader extends StatelessWidget {
       height: folderModel == null ? 100 : 200,
       child: folderModel != null
           ? CustomIconButton(
-              onPress: () {
+              onPressed: () {
                 if (onDelete != null) {
                   onDelete();
                 }

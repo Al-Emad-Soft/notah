@@ -22,6 +22,7 @@ Map<String, Map<String, String>> get keys => {
         'Arabic': 'Arabic',
         'English': 'English',
         'Share': 'Share',
+        'Warning': 'Warning',
         'Completed': 'Completed',
         'Delete Alert': 'Delete Alert',
         'Are you sure to delete all selected notes?':
@@ -47,6 +48,7 @@ Map<String, Map<String, String>> get keys => {
         'Arabic': 'العربية',
         'English': 'الانجليزية',
         'Share': 'مشاركة',
+        'Warning': 'تحذير',
         'Completed': 'مكتملة',
         'Delete Alert': 'تنبيه حذف',
         'Are you sure to delete all selected notes?':
