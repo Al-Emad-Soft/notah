@@ -14,7 +14,7 @@ class SettingsDrawer extends StatelessWidget {
     return Drawer(
       width: 250,
       backgroundColor: currTheme(context).colorScheme.background,
-      child: ListView(
+      child: Column(
         children: [
           SizedBox(
             height: 20,
@@ -30,6 +30,30 @@ class SettingsDrawer extends StatelessWidget {
           ),
           LanguageDropdown(),
           ThemeModeDropdown(),
+          Spacer(),
+          Divider(
+            color: Colors.grey.shade800,
+          ),
+          SizedBox(height: 10),
+          RichText(
+            maxLines: 1,
+            text: TextSpan(
+              style: DefaultTextStyle.of(context).style,
+              children: <TextSpan>[
+                TextSpan(
+                  text: 'Developed by'.tr(),
+                ),
+                TextSpan(
+                  text: ' ' + 'EMAD ARIF'.tr(),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.amber,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 20),
         ],
       ),
     );

@@ -22,9 +22,9 @@ class ThemeModeDropdown extends StatelessWidget {
             Icon(themeVM.getThemeModeIcon(themeVM.themeModes[i])),
           ],
         ),
-        onChanged: (selectedTheme) async {
+        onChanged: (selectedTheme) {
           if (selectedTheme == null) return;
-          await themeVM.switchTheme(selectedTheme);
+          themeVM.switchTheme(selectedTheme);
         },
       ),
     );
