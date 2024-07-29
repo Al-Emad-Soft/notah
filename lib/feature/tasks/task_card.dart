@@ -109,30 +109,6 @@ class CustomTaskListTile extends StatelessWidget {
                             ),
                           ],
                         ),
-                        // CustomIconButton(
-                        //   onPressed: () {
-                        //     tasksVM.changeFoldAndSave(
-                        //       taskModel,
-                        //       (value) {
-                        //         if (!value)
-                        //           tasksVM
-                        //               .getTaskExpController(taskModel)
-                        //               .collapse();
-                        //         else
-                        //           tasksVM
-                        //               .getTaskExpController(taskModel)
-                        //               .expand();
-                        //       },
-                        //     );
-                        //   },
-                        //   icon: Icon(
-                        //     taskModel.isFolded
-                        //         ? Icons.arrow_drop_down
-                        //         : Icons.arrow_drop_up,
-                        //     color: currTheme(context).iconTheme.color,
-                        //     size: 30,
-                        //   ),
-                        // ),
                       ],
                     ),
                     TextsContentInfo(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:notah/feature/priced_tasks/models/priced_task_model.dart';
+import 'package:notah/view_models/priced_tasks_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:notah/constants/app_const.dart';
 import 'package:notah/feature/app_settings/models/settings_models.dart';
@@ -25,10 +27,12 @@ Future<void> main() async {
   Hive.registerAdapter(NoteTaskModelAdapter());
   Hive.registerAdapter(TaskFolderModelAdapter());
   Hive.registerAdapter(SettingsModelAdapter());
+  Hive.registerAdapter(PricedTaskModelAdapter());
 
   await Hive.openBox<NoteTaskModel>(kNotesTasksBox);
   await Hive.openBox<TodoTaskModel>(kTodosTasksBox);
   await Hive.openBox<TaskFolderModel>(kTasksFoldersBox);
+  await Hive.openBox<PricedTaskModel>(kPricedTasksBox);
   await Hive.openBox<SettingsModel>(kSettingsBox);
 
   runApp(MyApp());
@@ -43,21 +47,31 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<PageNavigationController>(
           create: (_) => PageNavigationController(),
+          lazy: true,
         ),
         ChangeNotifierProvider<TodosViewModel>(
           create: (_) => TodosViewModel(),
+          lazy: true,
         ),
         ChangeNotifierProvider<NotesTasksViewModel>(
           create: (_) => NotesTasksViewModel(),
+          lazy: true,
+        ),
+        ChangeNotifierProvider<PricedTasksViewModel>(
+          create: (_) => PricedTasksViewModel(),
+          lazy: true,
         ),
         ChangeNotifierProvider<TasksFoldersViewModel>(
           create: (_) => TasksFoldersViewModel(),
+          lazy: true,
         ),
         ChangeNotifierProvider<ThemeViewModel>(
           create: (_) => ThemeViewModel(),
+          lazy: true,
         ),
         ChangeNotifierProvider<LanguageViewModel>(
           create: (_) => LanguageViewModel(),
+          lazy: true,
         ),
       ],
       builder: (context, child) => Consumer<ThemeViewModel>(

@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:notah/feature/priced_tasks/priced_task_page.dart';
+import 'package:notah/view_models/priced_tasks_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:notah/constants/app_themes.dart';
 import 'package:notah/feature/app_settings/settings_drawer.dart';
@@ -48,9 +50,20 @@ class HomePage extends StatelessWidget {
       body: Consumer<PageNavigationController>(
         builder: (context, pageVM, child) => PageView(
           controller: pageVM.pageController,
+          allowImplicitScrolling: false,
+          onPageChanged: (index) {
+            if (index == 2) {
+              context.read<PricedTasksViewModel>().loadAllMainTasks();
+            }
+
+            if (!pageVM.pageIndexFromTab) {
+              pageVM.setPageIndex(index);
+            }
+          },
           children: [
             TodosTasksPage(),
             NotesTasksPage(),
+            PricedTaskPage(),
           ],
         ),
       ),

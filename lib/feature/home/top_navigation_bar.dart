@@ -25,7 +25,7 @@ class TopNavigationBar extends StatelessWidget {
             destinations: [
               NavigationDestination(
                 icon: Icon(
-                  Icons.view_list_rounded,
+                  Icons.inventory_sharp,
                   //  color: currTheme(context).iconTheme.color,
                 ),
                 label: "Tasks".tr(),
@@ -37,9 +37,16 @@ class TopNavigationBar extends StatelessWidget {
                 ),
                 label: "Notes".tr(),
               ),
+              NavigationDestination(
+                icon: Icon(
+                  Icons.view_list_rounded,
+                  // color: Colors.white,
+                ),
+                label: "Priced".tr(),
+              ),
             ],
             onDestinationSelected: (value) {
-              pageVM.setPageIndex(value);
+              pageVM.setPageIndexFromTab(value);
             },
           ),
         ),

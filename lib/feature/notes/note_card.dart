@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:notah/constants/app_lang.dart';
@@ -24,151 +25,164 @@ class TaskGridTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<NotesTasksViewModel>(builder: (context, tasksVM, child) {
-      bool isSelected = tasksVM.checkSelectedTask(taskModel);
-      return Transform.scale(
-        scale: isSelected ? 0.93 : 1,
-        child: Card(
-          clipBehavior: Clip.antiAlias,
-          color: currTheme(context).primaryColor,
-          shape: RoundedRectangleBorder(
-            side: !taskModel.favorite
-                ? BorderSide.none
-                : BorderSide(
-                    width: 1,
-                    color: Colors.redAccent,
-                  ),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: InkWell(
-            onLongPress: () {
-              if (!tasksVM.isSelectionMode) {
-                tasksVM.selectTask(taskModel);
-              }
-            },
-            onTap: () {
-              if (tasksVM.isSelectionMode) {
-                tasksVM.selectTask(taskModel);
-                return;
-              }
+    return Consumer<NotesTasksViewModel>(
+      builder: (context, tasksVM, child) {
+        bool isSelected = tasksVM.checkSelectedTask(taskModel);
 
-              if (onPressed != null) {
-                onPressed!();
-              }
-              showGridTasksBottomSheet(
-                initTask: taskModel,
-                context: context,
-                onSave: () {},
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+        return Transform.scale(
+          scale: isSelected ? 0.93 : 1,
+          child: Card(
+            clipBehavior: Clip.antiAlias,
+            color: currTheme(context).primaryColor,
+            shape: RoundedRectangleBorder(
+              side: !taskModel.favorite
+                  ? BorderSide.none
+                  : BorderSide(
+                      width: 1,
+                      color: Colors.redAccent,
+                    ),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: InkWell(
+              onLongPress: () {
+                if (!tasksVM.isSelectionMode) {
+                  tasksVM.selectTask(taskModel);
+                }
+              },
+              onTap: () {
+                if (tasksVM.isSelectionMode) {
+                  tasksVM.selectTask(taskModel);
+                  return;
+                }
+
+                if (onPressed != null) {
+                  onPressed!();
+                }
+                showGridTasksBottomSheet(
+                  initTask: taskModel,
+                  context: context,
+                  onSave: () {},
+                );
+              },
+              child: Stack(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          taskModel.title,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: currTheme(context).textTheme.titleMedium,
-                        ),
-                      ),
-                      Visibility(
-                        visible: !tasksVM.isSelectionMode,
-                        child: CustomPopupMenuButton(
-                          items: [
-                            PopupMenuItemData(
-                              icon: Icon(
-                                taskModel.favorite
-                                    ? Icons.favorite
-                                    : Icons.favorite_border,
-                                color: taskModel.favorite
-                                    ? Colors.red[900]
-                                    : Colors.black54,
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                taskModel.title,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: currTheme(context).textTheme.titleMedium,
                               ),
-                              title: "Favorite".tr(),
                             ),
-                            PopupMenuItemData(
-                              icon: Icon(
-                                Icons.share,
-                                color: Colors.black54,
+                            Visibility(
+                              visible: !tasksVM.isSelectionMode,
+                              child: CustomPopupMenuButton(
+                                items: [
+                                  PopupMenuItemData(
+                                    icon: Icon(
+                                      taskModel.favorite
+                                          ? Icons.favorite
+                                          : Icons.favorite_border,
+                                      color: taskModel.favorite
+                                          ? Colors.red[900]
+                                          : Colors.black54,
+                                    ),
+                                    title: "Favorite".tr(),
+                                  ),
+                                  PopupMenuItemData(
+                                    icon: Icon(
+                                      Icons.share,
+                                      color: Colors.black54,
+                                    ),
+                                    title: "Share".tr(),
+                                  ),
+                                  PopupMenuItemData(
+                                    icon: Icon(
+                                      color: Colors.black54,
+                                      Icons.delete,
+                                    ),
+                                    title: "Delete".tr(),
+                                  ),
+                                ],
+                                onPress: (index) async {
+                                  switch (index) {
+                                    case 0:
+                                      await tasksVM.changeFavorite(
+                                          task: taskModel);
+                                      break;
+                                    case 1:
+                                      final text =
+                                          tasksVM.getNoteDataToShare(taskModel);
+                                      await Share.share(text);
+                                      break;
+                                    case 2:
+                                      await tasksVM.deleteNoteTaskById(
+                                          id: taskModel.id);
+                                      break;
+                                  }
+                                },
                               ),
-                              title: "Share".tr(),
-                            ),
-                            PopupMenuItemData(
-                              icon: Icon(
-                                color: Colors.black54,
-                                Icons.delete,
-                              ),
-                              title: "Delete".tr(),
                             ),
                           ],
-                          onPress: (index) async {
-                            switch (index) {
-                              case 0:
-                                await tasksVM.changeFavorite(task: taskModel);
-                                break;
-                              case 1:
-                                final text =
-                                    tasksVM.getNoteDataToShare(taskModel);
-                                await Share.share(text);
-                                break;
-                              case 2:
-                                await tasksVM.deleteNoteTaskById(
-                                    id: taskModel.id);
-                                break;
-                            }
-                          },
                         ),
-                      ),
-                    ],
-                  ),
-                  TextsContentInfo(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    info: [
-                      "${DateFormat("dd/MM/yyyy").format(taskModel.noteDate)}",
-                      "${DateFormat().add_jm().format(taskModel.noteDate)}",
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Divider(
-                    height: 1,
-                    thickness: 1,
-                    color: Colors.black54,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Expanded(
-                    child: Text(
-                      maxLines: 6,
-                      taskModel.content,
-                      style: currTheme(context).textTheme.bodySmall,
-                    ),
-                  ),
-                  Visibility(
-                    visible: tasksVM.isSelectionMode,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.check_circle,
-                          color: isSelected ? Colors.green : Colors.black54,
+                        TextsContentInfo(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          info: [
+                            "${DateFormat("dd/MM/yyyy").format(taskModel.noteDate)}",
+                            "${DateFormat().add_jm().format(taskModel.noteDate)}",
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Divider(
+                          height: 1,
+                          thickness: 1,
+                          color: Colors.black54,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Expanded(
+                          child: Text(
+                            maxLines: 6,
+                            taskModel.content,
+                            style: currTheme(context).textTheme.bodySmall,
+                          ),
                         ),
                       ],
+                    ),
+                  ),
+                  Positioned(
+                    right: isEnglish() ? 10 : null,
+                    left: isEnglish() ? null : 1,
+                    bottom: 10,
+                    child: Visibility(
+                      visible: tasksVM.isSelectionMode,
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.check_circle,
+                            color: isSelected ? Colors.green : Colors.grey,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }

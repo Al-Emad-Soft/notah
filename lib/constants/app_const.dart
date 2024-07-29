@@ -4,6 +4,7 @@ import 'package:path_provider/path_provider.dart';
 
 final String kNotesTasksBox = "notesTasks";
 final String kTodosTasksBox = "todosTsasks";
+final String kPricedTasksBox = "pricedTasks";
 final String kTasksFoldersBox = "tasksFolders";
 final String kSettingsBox = "settings";
 final String kHiveSubfolder = "Notah";

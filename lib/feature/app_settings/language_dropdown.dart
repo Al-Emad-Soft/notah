@@ -25,9 +25,9 @@ class LanguageDropdown extends StatelessWidget {
             CircleFlag(langsVM.langs[i].code, size: 25),
           ],
         ),
-        onChanged: (selectedLang) async {
+        onChanged: (selectedLang) {
           if (selectedLang == null) return;
-          await langsVM.setLocale(selectedLang);
+          langsVM.setLocale(selectedLang);
         },
       ),
     );

@@ -22,7 +22,10 @@ Map<String, Map<String, String>> get keys => {
         'Arabic': 'Arabic',
         'English': 'English',
         'Share': 'Share',
+        'Products': 'Products',
         'Warning': 'Warning',
+        'Developed by': 'Developed by',
+        'EMAD ARIF': 'EMAD ARIF',
         'Completed': 'Completed',
         'Delete Alert': 'Delete Alert',
         'Are you sure to delete all selected notes?':
@@ -49,6 +52,9 @@ Map<String, Map<String, String>> get keys => {
         'English': 'الانجليزية',
         'Share': 'مشاركة',
         'Warning': 'تحذير',
+        'Products': 'الاصناف',
+        'Developed by': 'تطوير بواسطة',
+        'EMAD ARIF': 'عماد عارف',
         'Completed': 'مكتملة',
         'Delete Alert': 'تنبيه حذف',
         'Are you sure to delete all selected notes?':
@@ -70,6 +76,10 @@ extension LanguagesExtension on Languages {
 late LanguageModel _langCode;
 
 Locale get getLanguage => _langCode.getLocale();
+
+bool isEnglish() {
+  return getLanguage.languageCode == Languages.en.localeCode();
+}
 
 void setLanguage(LanguageModel model) {
   _langCode = model;
