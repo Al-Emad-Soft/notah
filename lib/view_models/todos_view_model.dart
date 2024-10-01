@@ -30,19 +30,9 @@ class TodosViewModel extends ChangeNotifier {
   bool get doneTaskFolded => _isDoneTaskFolded;
   Future<void> updateExpanstion(TodoTaskModel task) async {
     final found = box.values.singleWhere((x) => x.id == task.id);
-
-    //found.isFolded = getTaskExpController(task).isExpanded;
     await found.save();
     notifyListeners();
   }
-
-  // ExpansionTileController getTaskExpController(TodoTaskModel task) {
-  //   if (!tasksExpController.containsKey(task.id)) {
-  //     tasksExpController[task.id] = ExpansionTileController();
-  //   }
-
-  //   return tasksExpController[task.id]!;
-  // }
 
   Future<void> changeFoldAndSave(
       TodoTaskModel task, Function(bool) onFold) async {
@@ -50,10 +40,6 @@ class TodosViewModel extends ChangeNotifier {
 
     found.isFolded = !found.isFolded;
     onFold(found.isFolded);
-    // if (tasksController[found.id]!.isExpanded)
-    //   tasksController[found.id]!.collapse();
-    // else
-    //   tasksController[found.id]!.expand();
 
     await found.save();
     notifyListeners();

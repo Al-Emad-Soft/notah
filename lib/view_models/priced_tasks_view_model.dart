@@ -6,29 +6,61 @@ import 'package:notah/feature/priced_tasks/models/priced_task_model.dart';
 class PricedTasksViewModel extends ChangeNotifier {
   final Box<PricedTaskModel> box = Hive.box(kPricedTasksBox);
   final List<PricedTaskModel> mainTasks = [];
+  List<PricedTaskModel> _deletedTasks = [];
+
+  final Map<int, bool> expanded = Map();
   final List<PricedTaskModel> currentSubtasks = [];
   late PricedTaskModel? currentMainTask;
 
-  void loadCurrentSubtasks() {
+  List<PricedTaskModel> getCurrentSubtasks(
+      {required PricedTaskModel mainTask}) {
+    return box.values.where((x) => x.parentId == mainTask.id).toList();
+  }
+
+  List<PricedTaskModel> loadCurrentSubtasks({PricedTaskModel? mainTask}) {
+    _deletedTasks.clear();
+    if (mainTask != null) currentMainTask = mainTask;
+    final tasks =
+        box.values.where((x) => x.parentId == currentMainTask!.id).toList();
     currentSubtasks.clear();
-    final tasks = box.values.where((x) => x.parentId == currentMainTask!.id);
+
     for (var t in tasks) {
       currentSubtasks.add(t.copyWith());
     }
+
+    return currentSubtasks;
   }
 
   void loadAllMainTasks() {
     mainTasks.clear();
     final tasks = box.values.where((x) => x.parentId == -1);
     mainTasks.addAll(tasks);
+    for (var t in tasks) {
+      if (!expanded.containsKey(t.id)) {
+        expanded[t.id] = false;
+      }
+    }
     notifyListeners();
   }
 
   void getMainTaskDetailsById(int mainTaskId) {
     currentMainTask =
         box.values.singleWhere((x) => x.id == mainTaskId).copyWith();
-    loadCurrentSubtasks();
+    loadCurrentSubtasks(mainTask: currentMainTask);
+    if (!expanded.containsKey(mainTaskId)) {
+      expanded[mainTaskId] = false;
+    }
     notifyListeners();
+  }
+
+  bool isExpanded(int mainTaskId) {
+    return expanded[mainTaskId]!;
+  }
+
+  void toggleSubtasks(int mainTaskId) {
+    if (expanded.containsKey(mainTaskId)) {
+      expanded[mainTaskId] = !expanded[mainTaskId]!;
+    }
   }
 
   void addNewMainTask() {
@@ -89,7 +121,9 @@ class PricedTasksViewModel extends ChangeNotifier {
 
   bool checkAllowedTask() {
     return currentSubtasks.length > 0 &&
-        !(currentSubtasks.where((x) => x.name == "").length ==
+        !(currentSubtasks
+                .where((x) => x.name == "" || x.price <= 0 || x.qty <= 0)
+                .length ==
             currentSubtasks.length) &&
         !(currentMainTask == null || currentMainTask!.name == "");
   }
@@ -100,8 +134,12 @@ class PricedTasksViewModel extends ChangeNotifier {
   }
 
   Future<void> _saveTask(PricedTaskModel task) async {
+    if (task.parentId != -1 &&
+        (task.price <= 0 || task.qty <= 0 || task.name.isEmpty)) return;
+
     if (task.id != -1) {
       var found = box.values.singleWhere((x) => x.id == task.id);
+
       found.price = task.price;
       found.qty = task.qty;
       found.name = task.name;
@@ -118,17 +156,57 @@ class PricedTasksViewModel extends ChangeNotifier {
     }
   }
 
+  bool deleteSubtask(int index) {
+    final subtask = currentSubtasks[index];
+    currentSubtasks.removeAt(index);
+
+    if (subtask.id == -1 || currentSubtasks.isEmpty) {
+      notifyListeners();
+
+      return false;
+    }
+    currentSubtasks.removeWhere((x) => x.id == subtask.id);
+    _deletedTasks.add(subtask);
+    notifyListeners();
+    return true;
+  }
+
+  Future<void> deleteTaskAndSave(PricedTaskModel task) async {
+    print(task.id);
+    if (task.id == -1) {
+      return;
+    }
+    final found = box.values.singleWhere((x) => x.id == task.id);
+
+    //_tasks.removeWhere((x) => x.id == task.id);
+    await _removeAllSubtasksAndSave(task);
+    await found.delete();
+    mainTasks.removeWhere(
+      (x) => x.id == task.id,
+    );
+    notifyListeners();
+  }
+
+  Future<void> _removeAllSubtasksAndSave(PricedTaskModel parentTask) async {
+    final tasks = box.values.where((x) => x.parentId == parentTask.id);
+    for (var subtask in tasks) {
+      await subtask.save();
+    }
+    // await found.delete();
+    notifyListeners();
+  }
+
   Future<void> saveCurrentTask() async {
     if (!checkAllowedTask()) {
       resetCurrTask();
 
       return;
     }
-    // _deletedTasks.forEach((subtask) async {
-    //   final found = box.values.singleWhere((x) => x.id == subtask.id);
-    //   await found.delete();
-    // });
-
+    _deletedTasks.forEach((subtask) async {
+      final found = box.values.singleWhere((x) => x.id == subtask.id);
+      await found.delete();
+    });
+    _deletedTasks.clear();
     if (currentMainTask != null) {
       currentMainTask!.totalPrice = 0;
       for (var t in currentSubtasks) {

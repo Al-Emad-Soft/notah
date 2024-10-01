@@ -25,7 +25,6 @@ class PricedTaskPage extends StatelessWidget {
                 child: Consumer<PricedTasksViewModel>(
                   builder: (context, vm, child) {
                     if (vm.mainTasks.isEmpty) return Center();
-
                     return ListView.builder(
                       shrinkWrap: true,
                       itemCount: vm.mainTasks.length,

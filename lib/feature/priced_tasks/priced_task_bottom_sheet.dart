@@ -44,6 +44,8 @@ Future<dynamic> PricedTaskBottomSheet({
                 Padding(
                   padding: const EdgeInsets.all(9),
                   child: ListView.separated(
+                    itemCount: vm.currentSubtasks.length,
+                    shrinkWrap: true,
                     itemBuilder: (context, index) {
                       final subtask = vm.currentSubtasks[index];
                       return PricedSubtask(
@@ -57,11 +59,12 @@ Future<dynamic> PricedTaskBottomSheet({
                         onNameChanged: (value) {
                           vm.changeSubtaskName(index, value);
                         },
+                        onDelete: () {
+                          vm.deleteSubtask(index);
+                        },
                       );
                     },
                     separatorBuilder: (context, index) => SizedBox(height: 10),
-                    itemCount: vm.currentSubtasks.length,
-                    shrinkWrap: true,
                   ),
                 ),
                 Row(

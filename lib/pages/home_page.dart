@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
         elevation: 0,
         backgroundColor: currTheme(context).colorScheme.background,
         flexibleSpace: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Container(
             decoration: BoxDecoration(
               boxShadow: [

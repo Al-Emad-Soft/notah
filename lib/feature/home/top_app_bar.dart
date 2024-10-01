@@ -17,7 +17,7 @@ class TopAppBar extends StatelessWidget {
           SizedBox(
             height: 50,
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10),
               child: Stack(
                 children: [
                   Positioned(

@@ -22,6 +22,7 @@ class SubtaskListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _textController.text = subtaskModel.content;
+
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: 20,

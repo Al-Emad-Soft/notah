@@ -4,6 +4,9 @@ import 'package:notah/view_models/lang_view_model.dart';
 Map<String, Map<String, String>> get keys => {
       Languages.en.localeCode(): {
         'Content': 'Content...',
+        'Name': 'Name',
+        'Price': 'Price',
+        'Qty': 'Qty',
         'Title': 'Title',
         'All': 'All',
         'Notes': 'Notes',
@@ -27,12 +30,16 @@ Map<String, Map<String, String>> get keys => {
         'Developed by': 'Developed by',
         'EMAD ARIF': 'EMAD ARIF',
         'Completed': 'Completed',
+        "Title is empty": "Title is empty",
         'Delete Alert': 'Delete Alert',
         'Are you sure to delete all selected notes?':
             'Are you sure to delete all notes?'
       },
       Languages.ar.localeCode(): {
         'Content': 'المحتوى...',
+        'Name': 'الأسم',
+        'Price': 'السعر',
+        'Qty': 'الكمية',
         'Title': 'العنوان',
         'All': 'الكل',
         'Notes': 'ملاحظات',
@@ -56,6 +63,7 @@ Map<String, Map<String, String>> get keys => {
         'Developed by': 'تطوير بواسطة',
         'EMAD ARIF': 'عماد عارف',
         'Completed': 'مكتملة',
+        "Title is empty": "العنوان فارغ",
         'Delete Alert': 'تنبيه حذف',
         'Are you sure to delete all selected notes?':
             'هل انت متأكد من حذف جميع الملاحظات المحددة؟'

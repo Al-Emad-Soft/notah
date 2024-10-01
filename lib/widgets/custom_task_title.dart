@@ -77,7 +77,7 @@ class _CustomTaskTitleState extends State<CustomTaskTitle> {
 
                 setState(() {
                   if (newTitle.isEmpty) {
-                    _errorText = "Title is empty";
+                    _errorText = "Title is empty".tr();
                   } else {
                     _errorText = null;
                   }

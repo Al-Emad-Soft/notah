@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:notah/constants/app_lang.dart';
 
 import 'package:notah/feature/priced_tasks/models/priced_task_model.dart';
 import 'package:notah/widgets/custom_icon_button.dart';
@@ -11,12 +12,14 @@ class PricedSubtask extends StatelessWidget {
   final Function(int value) onPriceChanged;
   final Function(int value) onQtyChanged;
   final Function(String value) onNameChanged;
+  final Function() onDelete;
   PricedSubtask({
     Key? key,
     required this.model,
     required this.onPriceChanged,
     required this.onQtyChanged,
     required this.onNameChanged,
+    required this.onDelete,
   }) : super(key: key) {}
 
   @override
@@ -28,7 +31,11 @@ class PricedSubtask extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            CustomIconButton(onPressed: () {}, icon: Icon(Icons.delete)),
+            CustomIconButton(
+                onPressed: () {
+                  onDelete();
+                },
+                icon: Icon(Icons.delete)),
             SizedBox(
               width: 5,
             ),
@@ -44,8 +51,8 @@ class PricedSubtask extends StatelessWidget {
                 ],
                 maxLines: 1,
                 minLines: 1,
-                decoration: const InputDecoration(
-                  labelText: 'Name',
+                decoration: InputDecoration(
+                  labelText: 'Name'.tr(),
                   border: UnderlineInputBorder(),
                 ),
               ),
@@ -70,8 +77,8 @@ class PricedSubtask extends StatelessWidget {
 
                   print(value);
                 },
-                decoration: const InputDecoration(
-                  labelText: 'Price',
+                decoration: InputDecoration(
+                  labelText: 'Price'.tr(),
                   border: UnderlineInputBorder(),
                 ),
               ),

@@ -14,7 +14,7 @@ class TopNavigationBar extends StatelessWidget {
     return Expanded(
       child: ClipRRect(
         borderRadius: const BorderRadius.vertical(
-          bottom: Radius.circular(15),
+          bottom: Radius.circular(20),
         ),
         child: Consumer<PageNavigationController>(
           builder: (context, pageVM, child) => NavigationBar(
