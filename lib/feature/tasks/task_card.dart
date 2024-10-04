@@ -87,17 +87,15 @@ class CustomTaskListTile extends StatelessWidget {
                                 onPress: (index) async {
                                   switch (index) {
                                     case 0:
-                                      await tasksVM
-                                          .changeDoneAndSave(taskModel);
+                                      tasksVM.changeDoneAndSave(taskModel);
                                       break;
                                     case 1:
                                       String text =
                                           tasksVM.getTaskDataToShare(taskModel);
-                                      await Share.share(text);
+                                      Share.share(text);
                                       break;
                                     case 2:
-                                      await tasksVM
-                                          .deleteTaskAndSave(taskModel);
+                                      tasksVM.deleteTaskAndSave(taskModel);
                                       break;
                                   }
                                 }),

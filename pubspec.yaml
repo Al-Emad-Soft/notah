@@ -43,7 +43,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   circle_flags: ^1.0.4
-  share_plus: ^7.0.2
+  share_plus: 7.0.0
   
 dev_dependencies:
   flutter_test:

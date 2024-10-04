@@ -85,7 +85,7 @@ class PricedCard extends StatelessWidget {
                                   onPress: (index) async {
                                     switch (index) {
                                       case 1:
-                                        await vm.deleteTaskAndSave(model);
+                                        vm.deleteTaskAndSave(model);
                                         break;
                                     }
                                   },
